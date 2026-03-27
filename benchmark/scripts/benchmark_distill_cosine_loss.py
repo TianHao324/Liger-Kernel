@@ -228,6 +228,7 @@ def bench_speed_cosine_similarity_loss(input: SingleBenchmarkRunInput) -> Single
 if __name__ == "__main__":
     args = parse_benchmark_script_args()
 
+    v_value = 64128 if device == "npu" else 128256  # Use a smaller V for NPU to avoid OOM
     common_configs = {
         "kernel_name": "distill_cosine_loss",
         "x_name": "BT",
@@ -237,7 +238,7 @@ if __name__ == "__main__":
         "extra_benchmark_configs": [
             {
                 "H": 4096,
-                "V": 128256,
+                "V": v_value,
                 "mode": "forward",
                 "dtype": torch.bfloat16,
                 "bias": False,

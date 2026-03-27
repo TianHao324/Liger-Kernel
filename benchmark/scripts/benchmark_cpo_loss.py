@@ -133,6 +133,7 @@ def bench_speed_fused_linear_cpo_loss(
 if __name__ == "__main__":
     args = parse_benchmark_script_args()
 
+    v_value = 64128 if device == "npu" else 128256  # Use a smaller V for NPU to avoid OOM
     common_configs = {
         "kernel_name": "fused_linear_cpo_loss",
         "x_name": "B",
@@ -143,7 +144,7 @@ if __name__ == "__main__":
             {
                 "T": 1024,
                 "H": 4096,
-                "V": 128256,
+                "V": v_value,
                 "mode": "forward",
                 "dtype": torch.bfloat16,
             }

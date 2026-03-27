@@ -100,11 +100,12 @@ def bench_speed_cross_entropy(
 if __name__ == "__main__":
     args = parse_benchmark_script_args()
 
+    x_max = 16 if device == "npu" else 18
     common_configs = {
         "kernel_name": "cross_entropy",
         "x_name": "V",
         "x_label": "vocab size",
-        "x_values": [2**i for i in range(12, 18)],
+        "x_values": [2**i for i in range(12, x_max)],
         "kernel_providers": ["liger", "huggingface"],
         "extra_benchmark_configs": [{"B": 8, "T": 2048}],
         "overwrite": args.overwrite,

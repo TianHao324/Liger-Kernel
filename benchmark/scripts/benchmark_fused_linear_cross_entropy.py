@@ -158,13 +158,14 @@ def bench_speed_fused_linear_cross_entropy(
 if __name__ == "__main__":
     args = parse_benchmark_script_args()
 
+    v_value = 64128 if device == "npu" else 128256  # Use a smaller V for NPU to avoid OOM
     common_configs = {
         "kernel_name": "fused_linear_cross_entropy",
         "x_name": "BT",
         "x_label": "B x T",
         "x_values": [2**i for i in range(12, 16)],
         "kernel_providers": ["liger", "liger-fp32-accum", "huggingface"],
-        "extra_benchmark_configs": [{"H": 4096, "V": 128256, "mode": "forward", "dtype": torch.bfloat16}],
+        "extra_benchmark_configs": [{"H": 4096, "V": v_value, "mode": "forward", "dtype": torch.bfloat16}],
         "overwrite": args.overwrite,
     }
 

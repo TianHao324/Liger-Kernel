@@ -161,6 +161,7 @@ def bench_speed_fused_linear_grpo_loss(
 if __name__ == "__main__":
     args = parse_benchmark_script_args()
 
+    v_value = 64128 if device == "npu" else 128256  # Use a smaller V for NPU to avoid OOM
     # Benchmark token-level importance sampling (original GRPO)
     token_configs = {
         "kernel_name": "fused_linear_grpo_loss_token",
@@ -172,7 +173,7 @@ if __name__ == "__main__":
             {
                 "T": 1024,
                 "H": 4096,
-                "V": 128256,
+                "V": v_value,
                 "importance_sampling_level": "token",
                 "dtype": torch.bfloat16,
             }
@@ -191,7 +192,7 @@ if __name__ == "__main__":
             {
                 "T": 1024,
                 "H": 4096,
-                "V": 128256,
+                "V": v_value,
                 "importance_sampling_level": "sequence",
                 "dtype": torch.bfloat16,
             }
